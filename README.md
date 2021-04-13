@@ -18,6 +18,8 @@ configuration
 
 Please configure a **read only db user of a slave replica** and add it in ``config.php`` as follows:
 
+Dummy db credentials:
+
     $CFG->remotedbhost    = 'db';
     $CFG->remotedbname    = 'moodle';
     $CFG->remotedbuser    = 'moodle_user';
