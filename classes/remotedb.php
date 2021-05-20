@@ -31,25 +31,28 @@ class remotedb {
 
     /** @var remotedb singleton instance */
     private static $instance;
-
+    
+    /** @var \pgsql_native_moodle_database */
+    protected $remotedb;
+    
     /**
      * Protected constructor, please use get_instance() to get an instance of this class.
      */
     private function __construct() {
-        global $DB, $CFG, $REMOTEDB;
+        global $DB, $CFG;
 
         $remotedbhost = $CFG->remotedbhost;
         $remotedbname = $CFG->remotedbname;
         $remotedbuser = $CFG->remotedbuser;
         $remotedbpass = $CFG->remotedbpass;
-        if (!empty($dbhost) && !empty($dbname)
-            && !empty($dbuser) && !empty($dbpass)) {
+        if (!empty($remotedbhost) && !empty($remotedbname)
+            && !empty($remotedbuser) && !empty($remotedbpass)) {
             $dbclass = get_class($DB);
-            $REMOTEDB = new $dbclass();
-            $REMOTEDB->connect($remotedbhost, $remotedbuser, $remotedbpass, $remotedbname, $CFG->prefix);
+            $this->remotedb = new $dbclass();
+            $this->remotedb->connect($remotedbhost, $remotedbuser, $remotedbpass, $remotedbname, $CFG->prefix);
         }
         else {
-            $REMOTEDB = $DB;
+            $this->remotedb = $DB;
         }
     }
 
@@ -64,6 +67,13 @@ class remotedb {
         }
 
         return static::$instance;
+    }
+    
+     /**
+     * @return \pgsql_native_moodle_database
+     */
+    public function get_remotedb(): \pgsql_native_moodle_database {
+        return $this->remotedb;
     }
 
     /**
