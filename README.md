@@ -28,6 +28,4 @@ Dummy db credentials:
 initialisation & usage
 ----------------------
 
-    \local_readonlydbsingleton\remotedb::get_instance();
-    global $REMOTEDB;
-    $REMOTEDB->get_recordset_sql('SELECT * FROM {table}');
+    \local_readonlydbinstance\remotedb::get_instance()->get_remotedb()->get_records_sql('SELECT * FROM {table}');
